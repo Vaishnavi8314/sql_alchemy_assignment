@@ -14,6 +14,7 @@ student = Table(
     Column('Migration', Boolean),
     Column('Transfer_details', String),
     Column('admission_in_seperate division', Boolean),
+    Column('admission_div',String),
     Column('YOP', Integer),
     Column('degree_type', String),
     Column('pu_marks', Integer),
@@ -35,28 +36,28 @@ def create():
         Migration = str(
             input("Has the student migrated to other programs or institutions(Yes/No):"))
         if Migration == "Yes":
-            Migration == 1
-            Transfer_details = str(input("Enter the details of transfer :"))
+            return True
         else:
-            Migration == 0
-            Transfer_details = None
-        admission = str(
+            return False
+        Transfer_details = str(input("Enter the details of transfer :"))
+        admission_div = str(
             input("Did the student take admission in separate division(Yes/No) :"))
         if admission == "Yes":
-            admission == 1
-            admission = str(
-                input("Enter the details of admission in seperate division :"))
+            return True
+           
         else:
-            admission == 0
-            admission = None
+            return False
+        
+        admission = str(
+                input("Enter the details of admission in seperate division :"))
         yop = int(input("Year of passing :"))
         degree = str(input("UG/PG : "))
         marks = int(input("Marks obtained in 12th in PCM subjects :"))
         entrance_marks = int(input("Marks obtained in entrance exam :"))
         rank = int(input("Rank in entrance exam :"))
         result = conn.execute(student.insert(),
-                              ([{'usn': USN, 'name': Name, 'gender': Gender, 'entry': Entry, 'yoa': YOA, 'migration': Migration,
-                                'transfer_details': Transfer_details, 'Admission': admission, 'YOP': yop, 'degree': degree, 'marks': marks, 'entrance_marks': entrance_marks, 'rank': rank}]))
+                              ([{'USN': USN, 'Name': Name, 'Gender': Gender, 'Entry': Entry, 'YOA': YOA, 'Migration': Migration,
+                                'Transfer_details': Transfer_details, 'Admission': Admission,'admission_div':admission_div, 'YOP': YOP, 'degree': degree, 'marks': marks, 'entrance_marks': entrance_marks, 'rank': rank}]))
 
 
 def read():
@@ -69,53 +70,16 @@ def read():
 
 def update():
     old = int(input("Enter the original USN of the student: "))
-    new = str(input("Enter the new name of the student: "))
-    conn = engine.connect()
-    stmt = student.update().where(student.c.USN == old).values(Name=new)
-    conn.execute(stmt)
-    t = student.select()
-    conn.execute(t).fetchall()
-
+   
 
 def delete():
     x = input("Enter the USN of the student whose record has to deleted: ")
     conn = engine.connect()
     stmt = student.delete().where(student.c.USN == x)
-    conn.execute(stmt)
-    t = student.select()
+    read()
     conn.execute(t).fetchall()
 
 
-@a.route('/1', methods=['POST'])
-def task():
-    body = request.get_json()
-    x = create(body)
-    return x
-
-
-@a.route('/2', methods=['PUT'])
-def TASK():
-    body = request.get_json()
-    y = update(body)
-    return y
-
-
-@a.route('/3', methods=['GET'])
-def tsk():
-    body = request.get_json()
-    z = read(body)
-    return z
-
-
-@a.route('/4', methods=['DELETE'])
-def ts():
-    body = request.get_json()
-    b = delete(body)
-    return b
-
-
-if __name__ == '__main__':
-    a.run(debug=True)
 
 operation_dict = {1: create, 2: read, 3: update, 4: delete}
 
@@ -126,3 +90,15 @@ while(True):
         Press 3 to update the records:
         Press 4 to delete a record: """))
     performing = operation_dict[operation]()
+stmt = student.update().where(student.c.USN == old).values(Name=new)
+    conn.execute(stmt)
+    t = student.select()
+    conn.execute(t).fetchall()
+    
+     new = str(input("Enter the new name of the student: "))
+    conn = engine.connect()
+    
+    stmt = student.update().where(student.c.USN == old).values(Name=new)
+    conn.execute(stmt)
+    t = student.select()
+    conn.execute(t).fetchall()
