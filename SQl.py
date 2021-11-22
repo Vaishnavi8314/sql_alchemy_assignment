@@ -1,6 +1,5 @@
 from sqlalchemy import create_engine, MetaData, Table, Column, Integer, String, Boolean
-from flask import Flask, request
-a = Flask(__name__)
+
 engine = create_engine('sqlite:///task_1.db', echo=True)
 meta = MetaData()
 
@@ -50,14 +49,14 @@ def create():
         
         admission = str(
                 input("Enter the details of admission in seperate division :"))
-        yop = int(input("Year of passing :"))
+        YOP = int(input("Year of passing :"))
         degree = str(input("UG/PG : "))
         marks = int(input("Marks obtained in 12th in PCM subjects :"))
         entrance_marks = int(input("Marks obtained in entrance exam :"))
         rank = int(input("Rank in entrance exam :"))
         result = conn.execute(student.insert(),
                               ([{'USN': USN, 'Name': Name, 'Gender': Gender, 'Entry': Entry, 'YOA': YOA, 'Migration': Migration,
-                                'Transfer_details': Transfer_details, 'Admission': Admission,'admission_div':admission_div, 'YOP': YOP, 'degree': degree, 'marks': marks, 'entrance_marks': entrance_marks, 'rank': rank}]))
+                                'Transfer_details': Transfer_details, 'admission_div': admission_div,'admission':admission, 'YOP': YOP, 'degree': degree, 'marks': marks, 'entrance_marks': entrance_marks, 'rank': rank}]))
 
 
 def read():
@@ -70,7 +69,12 @@ def read():
 
 def update():
     old = int(input("Enter the original USN of the student: "))
-   
+    new = input("Enter the columns to be changed in dictionary format : ")
+    new = eval(new)
+    for key, value in new.items():
+        print(key, value)
+        updated = student.update().where(student.c.USN == old).values(key=value)
+    result = conn.execute(updated)
 
 def delete():
     x = input("Enter the USN of the student whose record has to deleted: ")
@@ -90,15 +94,3 @@ while(True):
         Press 3 to update the records:
         Press 4 to delete a record: """))
     performing = operation_dict[operation]()
-stmt = student.update().where(student.c.USN == old).values(Name=new)
-    conn.execute(stmt)
-    t = student.select()
-    conn.execute(t).fetchall()
-    
-     new = str(input("Enter the new name of the student: "))
-    conn = engine.connect()
-    
-    stmt = student.update().where(student.c.USN == old).values(Name=new)
-    conn.execute(stmt)
-    t = student.select()
-    conn.execute(t).fetchall()
