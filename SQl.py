@@ -39,7 +39,7 @@ def create():
         else:
             return False
         Transfer_details = str(input("Enter the details of transfer :"))
-        admission_div = str(
+        admission = str(
             input("Did the student take admission in separate division(Yes/No) :"))
         if admission == "Yes":
             return True
@@ -47,7 +47,7 @@ def create():
         else:
             return False
         
-        admission = str(
+        admission_div = str(
                 input("Enter the details of admission in seperate division :"))
         YOP = int(input("Year of passing :"))
         degree = str(input("UG/PG : "))
@@ -56,7 +56,7 @@ def create():
         rank = int(input("Rank in entrance exam :"))
         result = conn.execute(student.insert(),
                               ([{'USN': USN, 'Name': Name, 'Gender': Gender, 'Entry': Entry, 'YOA': YOA, 'Migration': Migration,
-                                'Transfer_details': Transfer_details, 'admission_div': admission_div,'admission':admission, 'YOP': YOP, 'degree': degree, 'marks': marks, 'entrance_marks': entrance_marks, 'rank': rank}]))
+                                'Transfer_details': Transfer_details, 'admission': admission,'admission_div':admission_div, 'YOP': YOP, 'degree': degree, 'marks': marks, 'entrance_marks': entrance_marks, 'rank': rank}]))
 
 
 def read():
