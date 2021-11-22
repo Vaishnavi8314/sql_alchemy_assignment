@@ -83,4 +83,12 @@ def delete():
     read()
     conn.execute().fetchall()
  '''
+operation_dict = {1: create, 2: read #, 3: update, 4: delete}
 
+while(True):
+    operation = int(input("""To perform the following operations:
+        Press 1 to enter new values:
+        Press 2 to view the table:
+        Press 3 to update the records:
+        Press 4 to delete a record: """))
+    performing = operation_dict[operation]()
