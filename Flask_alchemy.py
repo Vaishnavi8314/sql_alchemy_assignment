@@ -101,7 +101,7 @@ def add():
 @app.route('/read', methods=['GET'])
 def view():
     body = request.get_json()
-    result = read(body)
+    result = read()
     return result
 
 
