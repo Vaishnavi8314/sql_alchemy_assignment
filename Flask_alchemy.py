@@ -42,14 +42,14 @@ def create(body):
         Migration = True
     elif Migration == "No":
         Migration = False
-    Transfer_details = str(body['transfer_details'])
-    Admission = str(body['admission'])
+    Transfer_details = str(body['Transfer_details'])
+    Admission = str(body['Admission'])
     if Admission == "Yes":
         Admission = True
     elif Admission == "No":
         Admission = False
-    Admission_div = str(body['admission_division'])
-    YOP = int(body['Year of passing'])
+    Admission_div = str(body['Admission_div'])
+    YOP = int(body['YOP'])
     degree = str(body['degree_type'])
     marks = int(body['marks'])
     entrance_marks = int(body['entrance_marks'])
